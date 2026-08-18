@@ -1,0 +1,97 @@
+{% extends 'global/base.html' %} 
+
+{# Classes appliquées à la balise <main> de base.html #}
+{% block main_class %}catalogue-page container{% endblock %}
+
+{% block content %}
+<div class="page-intro">
+      <div>
+        <p class="eyebrow">La collection Brickmarket</p>
+        <h1>Trouvez votre<br><em>prochaine construction.</em></h1>
+      </div>
+      <p>Des sets sélectionnés pour nourrir votre imagination — et votre étagère.</p>
+    </div>
+
+    <div class="catalogue-toolbar">
+      <div class="category-tabs">
+        <a class="is-active" href="{% url 'product_catalogue' %}">Tout voir</a>
+        {% for category in categories %}
+        <a href="{% url 'product_catalogue' %}?category={{category.slug}}">{{category.name}}</a>
+        {% endfor %}
+      </div>
+      <span class="result-count"><span>6</span> résultats <span>↘</span></span>
+    </div>
+
+    <section class="catalogue-section" id="botanicals">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">04 sets</p>
+          <h2>Tous les sets</h2>
+        </div>
+      </div>
+      <div class="product-grid">
+        {% for product in products %}
+        <article class="product-card">
+          <a class="product-visual" href="produit.html" aria-label="Voir Les plantes miniatures">
+            <span class="product-tag">Coup de cœur</span>
+            <img class="product-image" src="{{product.image_url}}" alt="Set LEGO {{product.name}}" loading="lazy">
+            <span class="product-quick">Voir le set <span>↗</span></span>
+          </a>
+          <div class="product-info">
+            <p class="eyebrow">{{product.category}} · #{{product.id}}</p>
+            <a class="product-name" href="produit.html">{{product.name}}</a>
+            <div class="product-meta"><span>{{product.parts_count}} pièces</span><strong>{{product.price_display}} €</strong></div>
+            <button class="add-button" type="button"><span>+</span> Ajouter</button>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="catalogue-section" id="lego-icons">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">01 set</p>
+          <h2>LEGO Icons</h2>
+        </div>
+      </div>
+      <div class="product-grid">
+        <article class="product-card">
+          <a class="product-visual" href="produit.html" aria-label="Voir Le Muséum d'Histoire naturelle">
+            <span class="product-tag">Nouveau</span>
+            <img class="product-image" src="https://www.lego.com/cdn/cs/set/assets/blt08ba1f2bb5e8f2fb/10326.png?dpr=1&amp;fit=bounds&amp;format=jpg&amp;height=1500&amp;quality=80&amp;width=1500" alt="Set LEGO Icons Le Muséum d'Histoire naturelle 10326" loading="lazy">
+            <span class="product-quick">Voir le set <span>↗</span></span>
+          </a>
+          <div class="product-info">
+            <p class="eyebrow">LEGO Icons · #10326</p>
+            <a class="product-name" href="produit.html">Le Muséum d'Histoire naturelle</a>
+            <div class="product-meta"><span>4 014 pièces</span><strong>299,99 €</strong></div>
+            <button class="add-button" type="button"><span>+</span> Ajouter</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="catalogue-section" id="creator-expert">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">01 set</p>
+          <h2>Creator Expert</h2>
+        </div>
+      </div>
+      <div class="product-grid">
+        <article class="product-card">
+          <a class="product-visual" href="produit.html" aria-label="Voir L'orchidée">
+            <img class="product-image" src="https://www.lego.com/cdn/cs/set/assets/blt08ea230311e717b8/10311.png?dpr=1&amp;fit=bounds&amp;format=jpg&amp;height=1500&amp;quality=80&amp;width=1500" alt="Set LEGO L'orchidée 10311" loading="lazy">
+            <span class="product-quick">Voir le set <span>↗</span></span>
+          </a>
+          <div class="product-info">
+            <p class="eyebrow">Creator Expert · #10311</p>
+            <a class="product-name" href="produit.html">L'orchidée</a>
+            <div class="product-meta"><span>608 pièces</span><strong>49,99 €</strong></div>
+            <button class="add-button" type="button"><span>+</span> Ajouter</button>
+          </div>
+        </article>
+      </div>
+    </section>
+{% endblock %}

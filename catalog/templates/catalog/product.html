@@ -18,23 +18,19 @@
           <h1>{{product.name}}</h1>
           <div class="official-facts">
             <div><b>{{product.age}}</b><span>Âge</span></div>
-            <div><b>{{product.parts}}</b><span>Nombre de pièces</span></div>
+            <div><b>{{product.parts_count}}</b><span>Nombre de pièces</span></div>
             <div><b>
-              {% if product.status == "AVAILABLE" %}
-                Disponible
-              {% elif product.status == "OUTOFSTOCK" %}
-                Hors stock
-              {% endif %}
+              {{product.get_status_display}}
             </b><span>Statut</span></div>
           </div>
           <p class="product-lead">{{product.short_description}}</p>
-          <div class="detail-price"><strong>{{product.price}} €</strong><span>TVA incluse</span></div>
-          <div class="detail-availability"><strong>{{product.status}}</strong><span>Limite 5 par foyer</span></div>
+          <div class="detail-price"><strong>{{product.price_display}} €</strong><span>TVA incluse</span></div>
+          <div class="detail-availability"><strong>{{product.get_status_display}}</strong><span>Limite 5 par foyer</span></div>
           <button class="button button-dark button-wide" type="button">Ajouter au panier <span>+</span></button>
           <button class="store-stock-button" type="button">Vérifier le stock du magasin <span>↗</span></button>
           <div class="insiders-callout">
             <span>✦</span>
-            <p>Gagnez <b>{{product.points}} points LEGO® Insiders</b><br><small>Livraison offerte dès 55 € · Retours sous 35 jours</small></p>
+            <p>Gagnez <b>{{product.rewards_points}} points LEGO® Insiders</b><br><small>Livraison offerte dès 55 € · Retours sous 35 jours</small></p>
           </div>
         </div>
       </div>

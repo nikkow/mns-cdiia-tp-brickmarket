@@ -1,24 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from .models import Product, Category
 
-def product(request, id:int|None = None ): 
+def product_list(request):
+  products = Product.objects.all()
+  categories = Category.objects.all()
+
+  context = {
+    "products": products,
+    "categories": categories,
+  }
+  
+  return render(request, "catalog/product_list.html", context)
+
+def product(request, slug:str): 
+  product = get_object_or_404(Product, slug=slug)
 
   context = {
     "page_title": "BrickMarket - Lego Super Store",
     "user_name": "Nicolas",
-    "product": {
-      "id": 10329,
-      "name": "Les plantes miniatures",
-      "price": 49.99,
-      "category": "Botanicals",
-      "short_description": "Un projet relaxant pour construire neuf petites plantes tropicales, carnivores et de climat aride, puis créer une décoration végétale sans entretien.",
-      "image_url": "https://m.media-amazon.com/images/I/81wYL4wpxjL._AC_SX679_.jpg",
-      "age": "18+",
-      "parts": 749,
-      "status": "AVAILABLE",
-      "slug": "les-plantes-miniatures",
-      "points": 375,
-    }
+    "product": product
   }
 
   return render(request, "catalog/product.html", context)

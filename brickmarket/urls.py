@@ -17,13 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from catalog.views import product
+from catalog.views import product, product_list
 from pages.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name="home_route"),
-    path('product/', product),
-    path('product/<int:id>/', product)
+    path('products/', product_list, name='product_catalogue'),
+    path('products/<slug:slug>/', product)
 ]
 

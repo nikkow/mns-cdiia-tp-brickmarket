@@ -49,6 +49,10 @@ class Product(models.Model):
 
   created_at = models.DateTimeField("Créé le", auto_now_add=True)
 
+  @property
+  def price_display(self):
+    return f"{self.price / 100:.2f}"
+
   class Meta: 
     verbose_name = "set LEGO"
     verbose_name_plural = "sets LEGO"
