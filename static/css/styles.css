@@ -1033,14 +1033,7 @@ h2 em {
   border-radius: 5px;
   background: #e9dfcf;
 }
-.product-detail-art:before {
-  position: absolute;
-  width: 325px;
-  height: 325px;
-  border-radius: 50%;
-  background: #f4ebdd;
-  content: "";
-}
+
 .product-detail-art .brick-art {
   transform: rotate(-9deg) scale(1.1);
 }
@@ -2021,10 +2014,7 @@ h2 em {
   .product-detail-art {
     min-height: 315px;
   }
-  .product-detail-art:before {
-    width: 250px;
-    height: 250px;
-  }
+
   .product-detail-art .brick-art {
     transform: rotate(-9deg) scale(0.72);
   }
@@ -2531,9 +2521,7 @@ body {
   border-radius: 28px;
   background: #e9f8e6;
 }
-.product-detail-art:before {
-  background: var(--yellow);
-}
+
 .detail-sticker {
   background: var(--red);
   color: #fff;
@@ -3003,10 +2991,7 @@ body {
   background-image: radial-gradient(#cbd2d4 1.5px, transparent 1.5px);
   background-size: 16px 16px;
 }
-.product-detail-art:before {
-  background: var(--yellow);
-  border: 2px solid var(--ink);
-}
+
 .detail-sticker {
   background: var(--red);
   border: 2px solid var(--ink);

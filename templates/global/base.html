@@ -19,7 +19,7 @@
     </div>
     {% include "global/_header.html" %}
 
-    <main>{% block content %} {% endblock %}</main>
+    <main class="{% block main_class %}{% endblock %}">{% block content %} {% endblock %}</main>
     
     {% include "global/_footer.html" %}
   </body>

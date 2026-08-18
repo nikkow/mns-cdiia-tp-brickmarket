@@ -7,11 +7,17 @@ def product(request, id:int|None = None ):
     "page_title": "BrickMarket - Lego Super Store",
     "user_name": "Nicolas",
     "product": {
-      "id": id,
-      "name": "LEGO Star Wars: The Mandalorian The Razor Crest 75292",
-      "price": 129.99,
-      "description": "The Razor Crest is a LEGO Star Wars set that allows fans to build and play with the iconic ship from the popular TV series, The Mandalorian. This set features a detailed design, including a cockpit, cargo hold, and minifigures of the Mandalorian and other characters.",
-      "image_url": "https://m.media-amazon.com/images/I/81gnlmQ5NUL._AC_SX679_.jpg"
+      "id": 10329,
+      "name": "Les plantes miniatures",
+      "price": 49.99,
+      "category": "Botanicals",
+      "short_description": "Un projet relaxant pour construire neuf petites plantes tropicales, carnivores et de climat aride, puis créer une décoration végétale sans entretien.",
+      "image_url": "https://m.media-amazon.com/images/I/81wYL4wpxjL._AC_SX679_.jpg",
+      "age": "18+",
+      "parts": 749,
+      "status": "AVAILABLE",
+      "slug": "les-plantes-miniatures",
+      "points": 375,
     }
   }
 
