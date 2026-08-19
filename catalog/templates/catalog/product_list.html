@@ -14,9 +14,9 @@
 
     <div class="catalogue-toolbar">
       <div class="category-tabs">
-        <a class="is-active" href="{% url 'product_catalogue' %}">Tout voir</a>
+        <a {% if not current_category %}class="is-active"{% endif %} href="{% url 'product_catalogue' %}">Tout voir</a>
         {% for category in categories %}
-        <a href="{% url 'product_catalogue' %}?category={{category.slug}}">{{category.name}}</a>
+        <a {% if category == current_category %}class="is-active"{% endif %} href="{% url 'product_catalogue' %}?category={{category.slug}}">{{category.name}}</a>
         {% endfor %}
       </div>
       <span class="result-count"><span>6</span> résultats <span>↘</span></span>
@@ -26,20 +26,28 @@
       <div class="section-heading">
         <div>
           <p class="eyebrow">04 sets</p>
-          <h2>Tous les sets</h2>
+          <h2>
+            {% if current_category %}
+            {{current_category.name}}
+            {% else %}
+            Tous les sets
+            {% endif %}
+          </h2>
         </div>
       </div>
       <div class="product-grid">
         {% for product in products %}
         <article class="product-card">
-          <a class="product-visual" href="produit.html" aria-label="Voir Les plantes miniatures">
+          <a class="product-visual" href="{% url 'product_details' slug=product.slug %}" aria-label="Voir {{product.name}}">
             <span class="product-tag">Coup de cœur</span>
             <img class="product-image" src="{{product.image_url}}" alt="Set LEGO {{product.name}}" loading="lazy">
             <span class="product-quick">Voir le set <span>↗</span></span>
           </a>
           <div class="product-info">
-            <p class="eyebrow">{{product.category}} · #{{product.id}}</p>
-            <a class="product-name" href="produit.html">{{product.name}}</a>
+            <p class="eyebrow">{{product.category}} · #{{product.id}} · 
+              <span class="status-{{product.status|lower}}">{{product.get_status_display}}</span>
+            </p>
+            <a class="product-name" href="{% url 'product_details' slug=product.slug %}">{{product.name}}</a>
             <div class="product-meta"><span>{{product.parts_count}} pièces</span><strong>{{product.price_display}} €</strong></div>
             <button class="add-button" type="button"><span>+</span> Ajouter</button>
           </div>
