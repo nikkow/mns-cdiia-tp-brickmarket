@@ -25,6 +25,7 @@ urlpatterns = [
     path('', home, name="home_route"),
     path('products/', product_list, name='product_catalogue'),
     path('products/<slug:slug>/', product, name="product_details"),
-    path('cart/', include('cart.urls'))
+    path('cart/', include('cart.urls')),
+    path('bot/', include('bot.urls'))
 ]
 
