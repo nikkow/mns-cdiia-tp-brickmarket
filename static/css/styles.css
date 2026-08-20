@@ -1770,7 +1770,6 @@ h2 em {
 }
 
 .quantity-control button {
-  width: 18px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -2394,6 +2393,355 @@ h2 em {
 }
 
 /* ======================================================================
+   15. ASSISTANT : INTERFACE DE CONVERSATION
+   Page chat.html. Aucune de ces règles n'a besoin de JavaScript :
+   les messages sont du HTML écrit en dur, la saisie est un <form>.
+   ====================================================================== */
+
+.chat-page {
+  padding-bottom: 100px;
+}
+
+/* Conversation à gauche, colonne d'information à droite */
+.chat-layout {
+  display: grid;
+  grid-template-columns: 1.45fr .7fr;
+  gap: 10%;
+}
+
+/* La fenêtre de conversation */
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--white);
+  box-shadow: 5px 5px 0 var(--ink);
+  overflow: hidden;
+}
+
+/* Bandeau du haut : avatar, nom de l'assistant, statut */
+.chat-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 2px solid var(--ink);
+  background: var(--paper);
+}
+
+.chat-panel-head h2 {
+  margin: 0;
+  font-family: 'Space Grotesk',sans-serif;
+  font-size: 18px;
+  letter-spacing: -.05em;
+}
+
+.chat-status {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-family: 'DM Mono',monospace;
+  font-size: 9px;
+}
+
+.chat-status:before {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--moss);
+  content: '';
+}
+
+.chat-panel-tag {
+  margin-left: auto;
+  padding: 5px 8px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--yellow);
+  font-family: 'DM Mono',monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+/* Pastille ronde avec l'initiale : bleue pour l'assistant, jaune pour vous */
+.chat-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  font-family: 'Space Grotesk',sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chat-avatar-bot {
+  background: var(--blue);
+  color: #fff;
+}
+
+.chat-avatar-user {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+/* La liste des messages */
+.chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 24px 20px;
+  list-style: none;
+}
+
+/* Un message = avatar + bulle */
+.chat-message {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  max-width: 82%;
+}
+
+/* Les messages de l'assistant restent à gauche */
+.chat-message-bot {
+  align-self: flex-start;
+}
+
+/* Les vôtres passent à droite, avatar après la bulle */
+.chat-message-user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+/* La bulle elle-même */
+.chat-bubble {
+  padding: 13px 15px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.chat-bubble p {
+  margin: 0 0 8px;
+}
+
+.chat-bubble p:last-of-type {
+  margin-bottom: 0;
+}
+
+.chat-bubble a {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+/* Coin coupé côté avatar, comme une vraie bulle de discussion */
+.chat-message-bot .chat-bubble {
+  border-bottom-left-radius: 4px;
+}
+
+.chat-message-user .chat-bubble {
+  border-bottom-right-radius: 4px;
+  background: var(--yellow);
+}
+
+/* Heure du message */
+.chat-time {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-family: 'DM Mono',monospace;
+  font-size: 9px;
+}
+
+/* État « l'assistant écrit » */
+.chat-bubble-typing {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.chat-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.chat-dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+  animation: chat-dot 1.2s infinite ease-in-out;
+}
+
+.chat-dots i:nth-child(2) {
+  animation-delay: .18s;
+}
+
+.chat-dots i:nth-child(3) {
+  animation-delay: .36s;
+}
+
+@keyframes chat-dot {
+  0%,60%,100% {
+    opacity: .25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.chat-typing-label {
+  color: var(--muted);
+  font-family: 'DM Mono',monospace;
+  font-size: 9px;
+}
+
+/* Questions fréquentes : de simples liens présentés en pastilles */
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px 18px;
+}
+
+.chat-suggestions .eyebrow {
+  width: 100%;
+  margin: 0;
+}
+
+.chat-chip {
+  padding: 8px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chat-chip:hover {
+  background: var(--yellow);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* Zone de saisie : un formulaire HTML tout ce qu'il y a de plus classique */
+.chat-composer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 2px solid var(--ink);
+  background: var(--paper);
+}
+
+.chat-composer-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.chat-composer-label {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.chat-composer textarea {
+  width: 100%;
+  padding: 12px 13px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  outline: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'DM Sans',Arial,sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.chat-composer textarea:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.chat-send {
+  gap: 10px;
+}
+
+.chat-note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-family: 'DM Mono',monospace;
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+/* Colonne de droite */
+.chat-aside {
+  align-self: start;
+  padding: 28px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--yellow);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.chat-aside-icon {
+  color: var(--red);
+  font-size: 30px;
+}
+
+.chat-aside h2 {
+  margin: 18px 0 14px;
+  font-family: 'Space Grotesk',sans-serif;
+  font-size: 26px;
+  letter-spacing: -.06em;
+}
+
+.chat-skills {
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.chat-skills li {
+  padding: 10px 0 10px 20px;
+  border-top: 1px solid rgba(17,24,32,.25);
+}
+
+/* La petite coche devant chaque ligne */
+.chat-skills li:before {
+  margin-left: -20px;
+  padding-right: 8px;
+  color: var(--red);
+  font-weight: 700;
+  content: '✳';
+}
+
+.chat-human p {
+  margin: 0 0 14px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* ======================================================================
    15. ÉCRANS MOYENS (TABLETTE) — JUSQU'À 900 PX
    Ces règles ne s'appliquent que si la fenêtre fait moins de 900 px de large.
    ====================================================================== */
@@ -2984,6 +3332,32 @@ h2 em {
 
   .account-nav a b {
     display: none;
+  }
+
+  /* Assistant : bulles plus larges, bouton d'envoi pleine largeur */
+  .chat-thread {
+    padding: 18px 14px;
+  }
+
+  .chat-message {
+    max-width: 100%;
+  }
+
+  .chat-suggestions {
+    padding: 0 14px 16px;
+  }
+
+  .chat-composer {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .chat-aside {
+    padding: 22px;
+  }
+
+  .chat-aside h2 {
+    font-size: 23px;
   }
 }
 

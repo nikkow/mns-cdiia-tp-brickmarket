@@ -11,10 +11,20 @@
         <p class="eyebrow">Votre sélection</p>
         <h1>Le panier, <em>c'est par ici.</em></h1>
       </div>
-      <p><span>2</span> pièces attendent de prendre vie.</p>
+      <p><span>
+        {{cart|length}}
+      </span> pièces attendent de prendre vie.
+    </p>
+     
     </div>
-
+    {% if cart %}
+    <form method="post" action="{% url 'cart:empty' %}">
+      {% csrf_token %}
+      <button type="submit">Vider le panier</button>
+    </form>
+    {% endif %}
     <div class="cart-layout">
+      
       <div class="cart-lines">
         
         {% for item in cart %}
@@ -26,9 +36,17 @@
             <span>{{item.product.parts_count}} pièces</span>
           </div>
           <div class="quantity-control">
-            <button type="button" aria-label="Retirer une pièce">−</button>
-            <span>{{item.quantity}}</span>
-            <button type="button" aria-label="Ajouter une pièce">+</button>
+            <form method="post" action="{% url 'cart:set_quantity' %}">
+              {% csrf_token %}
+              <input type="hidden" name="slug" value="{{item.product.slug}}" />
+              <input type="number" name="quantity" min="0" max="99" step="1" value="{{item.quantity}}" />
+              <button type="submit" aria-label="Modifier la quanitté">Modifier</button>
+            </form>
+            <form method="post" action="{% url 'cart:remove' %}">
+              {% csrf_token %}
+              <input type="hidden" name="slug" value="{{item.product.slug}}" />
+              <button type="submit">Supprimer</button>
+            </form>
           </div>
           <strong class="line-price">{{item.total_price_in_cents|price_from_cents}} €</strong>
         </div>

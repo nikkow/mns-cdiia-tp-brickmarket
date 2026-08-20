@@ -19,6 +19,14 @@
     </div>
     {% include "global/_header.html" %}
 
+    {% if messages %}
+    <div class="messages container">
+      {% for message in messages %}
+      <p class="message message-{{message.tags}}">{{message}}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <main class="{% block main_class %}{% endblock %}">{% block content %} {% endblock %}</main>
     
     {% include "global/_footer.html" %}

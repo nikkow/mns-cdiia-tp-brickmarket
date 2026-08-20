@@ -49,6 +49,16 @@ class Cart:
     self.session[CART_SESSION_KEY] = {}
     self.session.modified = True
 
+  def __len__(self):
+
+    # Equivalent en une seule ligne
+    # return sum(line["quantity"] for line in self.art.values())
+
+    total = 0
+    for line in self.cart.values():
+      total += line["quantity"]
+    return total
+
   def __iter__(self):
     """
     On crée un itérateur sur les produits du panier. 
