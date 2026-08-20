@@ -26,7 +26,16 @@
           <p class="product-lead">{{product.short_description}}</p>
           <div class="detail-price"><strong>{{product.price_display}} €</strong><span>TVA incluse</span></div>
           <div class="detail-availability"><strong>{{product.get_status_display}}</strong><span>Limite 5 par foyer</span></div>
-          <button class="button button-dark button-wide" type="button">Ajouter au panier <span>+</span></button>
+
+          <form method="post" action="{% url 'cart:add' %}">
+            {% csrf_token %}
+            <input type="hidden" name="slug" value="{{product.slug}}" />
+            <input type="hidden" name="next" value="{% url 'product_details' slug=product.slug %}" />
+            <button class="button button-dark button-wide" type="submit">
+              Ajouter au panier <span>+</span>
+            </button>
+          </form>
+
           <button class="store-stock-button" type="button">Vérifier le stock du magasin <span>↗</span></button>
           <div class="insiders-callout">
             <span>✦</span>

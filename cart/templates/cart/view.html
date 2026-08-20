@@ -1,0 +1,60 @@
+{% extends 'global/base.html' %} 
+
+{% load custom_filters %}
+
+{# Classes appliquées à la balise <main> de base.html #}
+{% block main_class %}cart-page container{% endblock %}
+
+{% block content %}
+<div class="page-intro page-intro-small">
+      <div>
+        <p class="eyebrow">Votre sélection</p>
+        <h1>Le panier, <em>c'est par ici.</em></h1>
+      </div>
+      <p><span>2</span> pièces attendent de prendre vie.</p>
+    </div>
+
+    <div class="cart-layout">
+      <div class="cart-lines">
+        
+        {% for item in cart %}
+        <div class="cart-line">
+          <div class="cart-line-art"><img class="cart-product-image" src="{{item.product.image_url}}" alt="Set LEGO Les plantes miniatures 10329"></div>
+          <div class="cart-line-copy">
+            <p class="eyebrow">{{item.product.category}}</p>
+            <h3>{{item.product.name}}</h3>
+            <span>{{item.product.parts_count}} pièces</span>
+          </div>
+          <div class="quantity-control">
+            <button type="button" aria-label="Retirer une pièce">−</button>
+            <span>{{item.quantity}}</span>
+            <button type="button" aria-label="Ajouter une pièce">+</button>
+          </div>
+          <strong class="line-price">{{item.total_price_in_cents|price_from_cents}} €</strong>
+        </div>
+        {% endfor %}
+        
+        {% if cart.is_shipping_free %}
+        <div class="cart-perks">
+          <span>✳</span>
+          <p><b>Bonne nouvelle :</b> votre commande bénéficie de la livraison offerte.</p>
+        </div>
+        {% endif %}
+      </div>
+      <aside class="order-summary">
+        <p class="eyebrow">Récapitulatif</p>
+        <h2>On y est presque.</h2>
+        <div class="summary-row"><span>Sous-total</span><strong>{{cart.subtotal|price_from_cents}} €</strong></div>
+        <div class="summary-row"><span>Livraison</span>
+          {% if cart.is_shipping_free %}
+          <strong class="free">Offerte</strong>
+          {% else %}
+          <strong>{{cart.shipping_fees|price_from_cents|floatformat:2}} €</strong>
+          {% endif %}
+        </div>
+        <div class="summary-total"><span>Total</span><strong>{{cart.total|price_from_cents}} €</strong></div>
+        <a class="button button-dark button-wide" href="commande.html">Passer la commande <span>→</span></a>
+        <small>Paiement sécurisé · CB, PayPal</small>
+      </aside>
+    </div>
+{% endblock %}
