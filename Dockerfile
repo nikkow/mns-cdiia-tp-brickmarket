@@ -13,6 +13,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=django:django . .
+RUN mkdir -p /app/staticfiles && chown -R django:django /app/staticfiles
 
 USER django
 
